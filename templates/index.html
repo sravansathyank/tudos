@@ -1,0 +1,29 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do App</title>
+</head>
+<body>
+    <h1>Welcome to the To-Do App</h1>
+    <form action="/add" method="post">
+        <input type="text" name="title" placeholder="New task" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <ul>
+        {% for todo in todos %}
+            <li>
+                <form action="/update/{{ todo.id }}" method="post" style="display:inline;">
+                    <input type="text" name="title" value="{{ todo.title }}">
+                    <input type="checkbox" name="completed" {% if todo.completed %}checked{% endif %} onchange="this.form.submit()">
+                    <button type="submit">Update</button>
+                </form>
+                <form action="/delete/{{ todo.id }}" method="post" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
