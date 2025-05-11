@@ -4,6 +4,7 @@ import models
 from database import SessionLocal, engine
 from pydantic import BaseModel
 from typing import List
+from fastapi.responses import RedirectResponse  # ✅ Added for redirection
 
 # Create the database tables
 models.Base.metadata.create_all(bind=engine)
@@ -63,6 +64,6 @@ def delete_todo(todo_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"message": "Todo deleted"}
 
-@app.get("/")
+@app.get("/", include_in_schema=False)  # ✅ Updated to redirect
 def read_root():
-    return {"message": "Welcome to the To-Do API"}
+    return RedirectResponse(url="/docs")
